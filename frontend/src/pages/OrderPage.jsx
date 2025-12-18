@@ -54,11 +54,10 @@ const OrderPage = () => {
     };
 
     const getImgUrl = (path) => {
-        if (!path) return "https://via.placeholder.com/150?text=No+Image";
+        if (!path) return "https://via.placeholder.com/150";
         if (path.startsWith("http")) return path;
-        let cleanPath = path.replace(/\\/g, "/");
-        if (!cleanPath.startsWith("/")) cleanPath = "/" + cleanPath;
-        return cleanPath;
+        if (path.startsWith("/uploads")) return `http://localhost:5000${path}`;
+        return path;
     };
 
     const formatDate = (dateString) => {

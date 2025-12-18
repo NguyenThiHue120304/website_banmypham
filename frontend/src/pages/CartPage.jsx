@@ -6,7 +6,12 @@ const CartPage = () => {
     const { cartItems, removeFromCart, increaseQty, decreaseQty } = useCart();
 
     const totalPrice = cartItems.reduce((acc, item) => acc + item.qty * item.price, 0);
-
+    const getImgUrl = (path) => {
+        if (!path) return "https://via.placeholder.com/150";
+        if (path.startsWith("http")) return path;
+        if (path.startsWith("/uploads")) return `http://localhost:5000${path}`;
+        return path;
+    };
     return (
         <div className="container mx-auto p-4 md:p-8">
             <div className="mb-6">
@@ -36,7 +41,11 @@ const CartPage = () => {
                             <div key={item._id} className="flex flex-col sm:flex-row items-center justify-between bg-white p-4 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition">
 
                                 <div className="flex items-center gap-4 w-full sm:w-auto mb-4 sm:mb-0">
-                                    <img src={item.image} alt={item.name} className="w-20 h-20 object-cover rounded-lg border" />
+                                    <img
+                                        src={getImgUrl(item.image)}
+                                        alt={item.name}
+                                        className="h-20 w-20 object-cover rounded"
+                                    />
                                     <div>
                                         <h3 className="font-bold text-gray-800 text-lg">{item.name}</h3>
                                         <p className="text-pink-600 font-semibold">{item.price.toLocaleString()} đ</p>

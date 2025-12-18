@@ -77,7 +77,7 @@ const OrderListPage = () => {
                                             onClick={() => deliverHandler(order._id)}
                                             className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm shadow transition"
                                         >
-                                            Xác nhận Giao
+                                            Xác nhận
                                         </button>
                                     )}
                                 </td>

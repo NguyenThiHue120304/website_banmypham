@@ -74,7 +74,7 @@ const ProductEditPage = () => {
             </Link>
 
             <div className="bg-white rounded-xl shadow-lg p-8 max-w-2xl mx-auto border-t-4 border-pink-600">
-                <h1 className="text-3xl font-bold mb-6 text-gray-800 text-center uppercase">Chỉnh sửa sản phẩm</h1>
+                <h1 className="text-3xl font-bold mb-6 text-gray-800 text-center uppercase">Sản phẩm</h1>
                 
                 <form onSubmit={submitHandler} className="space-y-5">
                     

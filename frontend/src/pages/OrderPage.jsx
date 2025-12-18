@@ -1,20 +1,19 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { FaBoxOpen, FaMapMarkerAlt, FaMoneyBillWave, FaTrash, FaTruck, FaUser } from 'react-icons/fa';
-import { Link, useNavigate, useParams } from 'react-router-dom'; // 1. Đã thêm useNavigate
-import { toast } from 'react-toastify'; // Import Toast thông báo
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { useAuth } from '../context/AuthContext';
 
 const OrderPage = () => {
     const { id: orderId } = useParams();
     const { userInfo } = useAuth();
-    const navigate = useNavigate(); // 2. Khai báo biến chuyển trang
+    const navigate = useNavigate();
 
     const [order, setOrder] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // Tải thông tin đơn hàng
     useEffect(() => {
         const fetchOrder = async () => {
             try {
@@ -37,7 +36,6 @@ const OrderPage = () => {
         }
     }, [orderId, userInfo, navigate]);
 
-    // --- HÀM HỦY ĐƠN HÀNG (FIX LỖI KHÔNG RELOAD) ---
     const cancelOrderHandler = async () => {
         if (window.confirm('Bạn có chắc chắn muốn hủy đơn hàng này không? Hành động này không thể hoàn tác.')) {
             try {
@@ -45,13 +43,8 @@ const OrderPage = () => {
                     headers: { Authorization: `Bearer ${userInfo.token}` },
                 };
 
-                // Gọi API xóa
                 await axios.delete(`/api/orders/${orderId}`, config);
-
-                // Thông báo thành công
                 toast.success("Đã hủy đơn hàng thành công!");
-
-                // 3. Chuyển hướng về trang lịch sử ngay lập tức
                 navigate('/profile');
 
             } catch (err) {
@@ -59,9 +52,7 @@ const OrderPage = () => {
             }
         }
     };
-    // ------------------------------------------------
 
-    // Hàm xử lý ảnh
     const getImgUrl = (path) => {
         if (!path) return "https://via.placeholder.com/150?text=No+Image";
         if (path.startsWith("http")) return path;
@@ -70,7 +61,6 @@ const OrderPage = () => {
         return cleanPath;
     };
 
-    // Hàm format ngày
     const formatDate = (dateString) => {
         if (!dateString) return "Chưa cập nhật";
         try {
@@ -106,11 +96,19 @@ const OrderPage = () => {
                                 <FaUser className="mr-2 text-pink-600" /> Thông tin nhận hàng
                             </h2>
                             <div className="text-gray-600 space-y-2">
-                                <p><strong className="text-gray-800">Người nhận:</strong> {order.user?.name}</p>
+                                <p>
+                                    <strong className="text-gray-800">Người nhận:</strong>{" "}
+                                    {order.shippingAddress?.fullName || order.user?.name}
+                                </p>
                                 <p><strong className="text-gray-800">Email:</strong> {order.user?.email}</p>
+                                <p><strong className="text-gray-800">SĐT:</strong> {order.shippingAddress?.phone}</p>
                                 <div className="flex items-start">
                                     <FaMapMarkerAlt className="mt-1 mr-2 text-pink-500 flex-shrink-0" />
-                                    <span>{order.shippingAddress?.address}, {order.shippingAddress?.city}</span>
+                                    <span>
+                                        {order.shippingAddress?.address}
+                                        {order.shippingAddress?.ward ? `, ${order.shippingAddress.ward}` : ""}
+                                        {order.shippingAddress?.city ? `, ${order.shippingAddress.city}` : ""}
+                                    </span>
                                 </div>
 
                                 <div className="mt-4 p-3 bg-gray-100 rounded flex flex-wrap items-center justify-between gap-2">

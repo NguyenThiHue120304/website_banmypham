@@ -2,11 +2,9 @@ import { Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-// Layouts
 import AdminLayout from './components/AdminLayout';
 import UserLayout from './components/UserLayout';
 
-// User Pages
 import CartPage from './pages/CartPage';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
@@ -15,7 +13,7 @@ import ProductDetailPage from './pages/ProductDetailPage';
 import ProfilePage from './pages/ProfilePage';
 import RegisterPage from './pages/RegisterPage';
 import ShippingPage from './pages/ShippingPage';
-// Admin Pages
+
 import OrderListPage from './pages/admin/OrderListPage';
 import ProductEditPage from './pages/admin/ProductEditPage';
 import ProductListPage from './pages/admin/ProductListPage';
@@ -27,6 +25,7 @@ function App() {
       <Routes>
         <Route element={<UserLayout />}>
           <Route path="/" element={<HomePage />} />
+          <Route path="/search/:keyword" element={<HomePage />} />
           <Route path="/product/:id" element={<ProductDetailPage />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/login" element={<LoginPage />} />
